@@ -306,7 +306,7 @@ MonoBehaviour:
   _target: {fileID: 874345989}
   _platformPrefab: {fileID: 6638901056803967396}
   _stepsCountToSpawn: 4
-  _stepCountToDelete: 2.22
+  _stepCountToDelete: 5
   _stepHeight: 1.85
   _bounds: {x: -2.2, y: 2.2}
 --- !u!4 &574681665
@@ -885,6 +885,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _target: {fileID: 874345989}
   _collider: {fileID: 296330598158290009}
+  _YOffset: 0.2
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0
