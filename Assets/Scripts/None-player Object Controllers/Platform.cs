@@ -5,6 +5,7 @@ public class Platform : MonoBehaviour
 {
     [SerializeField] protected Transform _target;
     [SerializeField] protected Collider2D _collider;
+    [SerializeField] private float _YOffset;
 
     protected bool _isInitiated;
 
@@ -24,7 +25,7 @@ public class Platform : MonoBehaviour
 
     protected virtual void OnUpdatePlatform()
     {
-        if (_target.transform.position.y > transform.position.y)
+        if (_target.transform.position.y > transform.position.y + _YOffset)
         {
             _collider.enabled = true;
         }

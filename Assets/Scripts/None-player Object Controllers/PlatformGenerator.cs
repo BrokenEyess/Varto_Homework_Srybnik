@@ -44,12 +44,21 @@ public class PlatformGenerator : MonoBehaviour
 
     private void Update()
     {
+        CheckToSpawnPlatform();
+        CheckToDeletePlatform();
+    }
+
+    private void CheckToSpawnPlatform()
+    {
         if (_target.position.y - _lastPlatformSpawnedOnPlayerPosition > _stepHeight)
         {
             SpawnPlatform(_stepsCountToSpawn);
             _lastPlatformSpawnedOnPlayerPosition += _stepHeight;
         }
+    }
 
+    private void CheckToDeletePlatform()
+    {
         if (_target.position.y - _lastPlatformDeletedOnPlayerPosition > _stepHeight * _stepCountToDelete)
         {
             var platformToDelete = _spawnedPlatforms.Dequeue();

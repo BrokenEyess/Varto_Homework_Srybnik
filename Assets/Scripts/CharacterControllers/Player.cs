@@ -13,9 +13,9 @@ public class Player : MonoBehaviour
     
     [SerializeField] private float _moveSpeed;
     
-    private bool _isJumping = false;
     private bool _isOnGround = false;
     
+    private float _inputHorizontal;
     private float _moveDirection;
     
     private Vector3 _lookRight;
@@ -26,13 +26,6 @@ public class Player : MonoBehaviour
     {
         _lookRight = _player.transform.localScale;
         _lookLeft = new Vector3(-_player.transform.localScale.x, _player.transform.localScale.y, _player.transform.localScale.z);
-    }
-
-    void Update()
-    {
-        CalculateSpeed();
-        CalculateJump();
-        Move();
     }
 
     private void CalculateSpeed()
@@ -47,36 +40,27 @@ public class Player : MonoBehaviour
 
     private void Move()
     {
-        if (Input.GetKeyDown(KeyCode.A))
-        {
-            _player.linearVelocity = new Vector2(-2f, 0);
-        }
-
-        if (Input.GetKeyDown(KeyCode.D))
-        {
-            _player.linearVelocity = new Vector2(2f, 0);
-        }
+        _inputHorizontal = Input.GetAxis("Horizontal");
+        _player.linearVelocity = new Vector2(_inputHorizontal * _moveSpeed, _player.linearVelocity.y);
     }
 
     private void CalculateJump()
     {
         _isOnGround = Physics2D.Raycast(_player.position, Vector2.down, _distanceToGround, _groundMask);
-        if(Input.GetKeyDown(KeyCode.Space))
-        {
-            _isJumping = true;
-        }
+        if(_isOnGround && Input.GetKeyDown(KeyCode.Space))
+            _player.AddForce(Vector2.up * _jumpForce, ForceMode2D.Impulse);
+    }
+
+    private void CalculateLinearVelocity()
+    {
+        _player.linearVelocity = new Vector2(_moveDirection*_moveSpeed, _player.linearVelocity.y);
     }
 
     private void FixedUpdate()
     {
-        if (_isOnGround)
-        {
-            if (_isJumping)
-            {
-                _player.AddForce(Vector2.up * _jumpForce, ForceMode2D.Impulse);
-                _isJumping = false;
-            }
-        }
-        _player.linearVelocity = new Vector2(_moveDirection*_moveSpeed, _player.linearVelocity.y);
+        CalculateSpeed();
+        CalculateJump();
+        CalculateLinearVelocity();
+        Move();
     }
 }
